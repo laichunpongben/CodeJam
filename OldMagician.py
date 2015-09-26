@@ -1049,6 +1049,8 @@ def UpdateUntilLastBall(balls):
     elif (balls == [0, 1]): resultBlack += 1
 
 def ResetCount():
+    global resultWhite
+    global resultBlack
     resultWhite = 0
     resultBlack = 0
 
@@ -1056,11 +1058,11 @@ def SimulateResult(testCaseNo, count):
     balls = inputTestCases[testCaseNo]
     for x in range(count):
         UpdateUntilLastBall(balls)
-    if (resultWhite == count): print("Case #" & testCaseNo & ": " & "WHITE")
-    elif: (resultBlack == count): print("Case #" & testCaseNo & ": " & "BLACK")
-    else: print("Case #" & testCaseNo & ": " & "UNKNOWN")
+    if (resultWhite == count): print("Case #" + str(testCaseNo + 1) + ": WHITE")
+    elif (resultBlack == count): print("Case #" + str(testCaseNo + 1) + ": BLACK")
+    else: print("Case #" + str(testCaseNo + 1) + ": UNKNOWN")
     ResetCount()
         
 InitializeInputTestCases()
 for x in range(1000):
-    SimulateResult(x)
+    SimulateResult(x, 10)
