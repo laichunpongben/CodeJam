@@ -1054,7 +1054,7 @@ def ResetCount():
     resultWhite = 0
     resultBlack = 0
 
-def SimulateResult(testCaseNo, count):
+def PrintResult(testCaseNo, count):
     balls = inputTestCases[testCaseNo]
     for x in range(count):
         UpdateUntilLastBall(balls)
@@ -1062,7 +1062,10 @@ def SimulateResult(testCaseNo, count):
     elif (resultBlack == count): print("Case #" + str(testCaseNo + 1) + ": BLACK")
     else: print("Case #" + str(testCaseNo + 1) + ": UNKNOWN")
     ResetCount()
+
+def PrintAllResults():
+    InitializeInputTestCases()
+    for x in range(1000):
+        PrintResult(x, 10)
         
-InitializeInputTestCases()
-for x in range(1000):
-    SimulateResult(x, 10)
+PrintAllResults()
