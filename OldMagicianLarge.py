@@ -1018,11 +1018,14 @@ def ComputeLastBall(balls):
         1: "BLACK",
     }[oddEven]
 
-def DetermineResult(testCaseNo):
+def PrintResult(testCaseNo):
     balls = inputTestCases[testCaseNo]
     result = ComputeLastBall(balls)
     print("Case #" + str(testCaseNo + 1) + ": " + result)
         
-InitializeInputTestCases()
-for x in range(1000):
-    DetermineResult(x)
+def PrintAllResults():
+    InitializeInputTestCases()
+    for x in range(1000):
+        PrintResult(x)
+        
+PrintAllResults()
