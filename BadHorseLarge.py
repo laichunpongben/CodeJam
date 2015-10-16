@@ -3,7 +3,6 @@
 # Practice Round APAC test 2016 
 # Problem A. Bad Horse
 
-import itertools
 from random import shuffle
 
 class TestCase:
