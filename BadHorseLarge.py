@@ -4,6 +4,7 @@
 # Problem A. Bad Horse
 
 import itertools
+from random import shuffle
 
 class TestCase:
     def __init__(self):
@@ -37,10 +38,11 @@ def is_safe_set_exist(testCase):
     unsolvedPairs = testCase.troublePairs
     count = 0
     
-    unsolvedPairs.sort()
+    shuffle(unsolvedPairs)
     set1.add(unsolvedPairs[0][0])
     set2.add(unsolvedPairs[0][1])
     unsolvedPairs.remove(unsolvedPairs[0])
+    unsolvedPairs.sort()
     
     while (len(unsolvedPairs) > 0 and count < 100):
         count += 1
