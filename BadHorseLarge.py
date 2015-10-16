@@ -32,7 +32,6 @@ def initialize_test_cases(lines):
                     testCases[count].troublePairs.append(p)
 
 def is_safe_set_exist(testCase):
-    players = testCase.players
     set1 = set()
     set2 = set()
     unsolvedPairs = testCase.troublePairs
