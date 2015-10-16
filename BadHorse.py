@@ -30,7 +30,7 @@ def initialize_test_cases(lines):
                     testCases[count].players.add(p[1])
                     testCases[count].troublePairs.append(p)
 
-def is_trouble_pair_exist(testCase):
+def is_safe_set_exist(testCase):
     players = testCase.players
     set1 = set()
     set2 = set(players)
@@ -46,16 +46,16 @@ def is_trouble_pair_exist(testCase):
             for pair in testCase.troublePairs:
                 if (pair[0] in set1) and (pair[1] in set1): 
                     is_safe = False
-                    continue
+                    break
                 elif (pair[0] in set2) and (pair[1] in set2): 
                     is_safe = False
-                    continue
+                    break
             if (is_safe): return True
     return False
                 
 def print_all_results():
     for x in range(len(testCases)):
-        if (is_trouble_pair_exist(testCases[x])): print('Case #' + str(x + 1) + ': Yes')
+        if (is_safe_set_exist(testCases[x])): print('Case #' + str(x + 1) + ': Yes')
         else: print('Case #' + str(x + 1) + ': No')
         
 initialize_test_cases(lines)
