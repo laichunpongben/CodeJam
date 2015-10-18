@@ -88,7 +88,7 @@ def compute_barber(testCase):
     
     if (currentPosition == 0):
         while (barberAvailable == 0):
-            time += - 1
+            time += -1
             for index, item in reverse_enum(testCase.barbers):
                 if (time % item == 0): 
                     barberAvailable = index + 1
