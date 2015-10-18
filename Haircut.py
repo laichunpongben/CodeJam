@@ -42,20 +42,19 @@ def lcm(numbers):
                         
 def compute_barber(testCase):
     cyclePeriod = lcm(testCase.barbers)
-    cycleServe = sum(cyclePeriod / x for x in testCase.barbers)
+    cycleServe = sum(cyclePeriod // x for x in testCase.barbers)
     time = 0
     currentPosition = testCase.position
     barberAvailable = 0
     
-    if (currentPosition > cyclePeriod): 
-        currentPosition = ? % ?
-        time = int(? / ?)
+    if (currentPosition > cyclePeriod): currentPosition = currentPosition % cycleServe
+    if (currentPosition == 0): currentPosition = cycleServe
+    
     while (currentPosition > 0):
         for x in range(len(testCase.barbers)):
             if (time % testCase.barbers[x] == 0): 
                 barberAvailable = x + 1
                 currentPosition += -1
-                print(time)
                 if (currentPosition == 0): break
         time += 1
     return barberAvailable
@@ -65,9 +64,4 @@ def print_all_results():
         print('Case #' + str(x + 1) + ': ' + str(compute_barber(testCases[x])))
 
 initialize_test_cases(lines)
-#print_all_results()
-for x in range(1):
-    print(compute_barber(testCases[x]))
-
-
-print(lcm(testCases[0].barbers))
+print_all_results()
