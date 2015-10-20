@@ -1,6 +1,6 @@
 # Google Code Jam
-# Google Code Jam 2014
-# Qualification Round 2014
+# Google Code Jam 2013
+# Qualification Round 2013
 # Problem A. Tic-Tac-Toe-Tomek
 
 class TestCase:
