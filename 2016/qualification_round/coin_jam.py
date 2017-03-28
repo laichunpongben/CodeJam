@@ -15,12 +15,13 @@ def is_coin_jam(coin):
 
     for base in range(2, 11):
         base10_int = int(coin, base)
-        if is_prime(base10_int):
+        threshold = 1000
+        if has_no_divisor_below(base10_int, threshold):
             return False
 
     return True
 
-def is_prime(n):
+def has_no_divisor_below(n, threshold):
     """Returns True if n is prime."""
     if n == 2:
         return True
@@ -35,6 +36,9 @@ def is_prime(n):
     w = 2
 
     while i * i <= n:
+        if i > threshold:
+            break
+
         if n % i == 0:
             return False
 
@@ -86,7 +90,7 @@ def get_coin_jams(length, required_count):
 if __name__ == '__main__':
     print(get_coin_jams(6, 3))
 
-    data_files = ['C-large-practice']
+    data_files = ['C-small-practice', 'C-large-practice']
     for f in data_files:
         with open('{0}.in'.format(f), 'r') as input_file:
             lines = input_file.readlines()
