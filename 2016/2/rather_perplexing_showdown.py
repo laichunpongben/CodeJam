@@ -14,7 +14,7 @@ def get_lineup(players):
 
     lineup_dict = build_lineup_dict(n)
     lineups = sorted([lineup_dict[n][winner] for winner in ('R', 'P', 'S')])
-    
+
     for lineup in lineups:
         count = count_players(lineup)
         if players == count:
@@ -35,7 +35,7 @@ def build_lineup_dict(n):
 
         lineup_dict[i]['R'] = min(r, s) + max(r, s)
         lineup_dict[i]['P'] = min(p, r) + max(p, r)
-        lineup_dict[i]['S'] = min(p, s) + max(p , s)
+        lineup_dict[i]['S'] = min(p, s) + max(p, s)
 
     return lineup_dict
 
