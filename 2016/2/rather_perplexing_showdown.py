@@ -2,65 +2,48 @@
 
 from __future__ import print_function
 import math
-import random
+from copy import deepcopy
 
 def get_lineup(players):
+    if not isinstance(players, tuple):
+        raise TypeError
+
     n = int(round(math.log(sum(players)) / math.log(2)))
     if 2 ** n != sum(players):
         raise ValueError
 
-    lineups = []
-    baseline_lineup = 'R' * players[0] + \
-                      'P' * players[1] + \
-                      'S' * players[2]
+    lineup_dict = build_lineup_dict(n)
+    lineups = sorted([lineup_dict[n][winner] for winner in ('R', 'P', 'S')])
+    
+    for lineup in lineups:
+        count = count_players(lineup)
+        if players == count:
+            return lineup
 
-    num_trial = 10000
-    for _ in range(num_trial):
-        lineup = list(baseline_lineup)
-        random.shuffle(lineup)
-        lineup = ''.join(lineup)
+    return 'IMPOSSIBLE'
 
-        tournament_winner = get_tournament_winner(lineup)
-        if tournament_winner:
-            lineups.append(lineup)
+def build_lineup_dict(n):
+    lineup_dict = dict.fromkeys(range(n+1), {})
 
-    if len(lineups) > 0:
-        return sorted(list(set(lineups)))[0]
-    else:
-        return 'IMPOSSIBLE'
+    for winner in ('R', 'P', 'S'):
+        lineup_dict[0][winner] = winner
 
-def get_tournament_winner(lineup):
-    old_lineup = lineup
-    new_lineup = ''
-    while True:
-        pairing = zip(old_lineup[::2], old_lineup[1::2])
-        for pair in pairing:
-            try:
-                winner = get_winner(pair)
-            except TieException:
-                return None
-            new_lineup += winner
+    for i in range(1, n+1):
+        r = deepcopy(lineup_dict[i-1]['R'])
+        p = deepcopy(lineup_dict[i-1]['P'])
+        s = deepcopy(lineup_dict[i-1]['S'])
 
-        if len(new_lineup) == 1:
-            return new_lineup
+        lineup_dict[i]['R'] = min(r, s) + max(r, s)
+        lineup_dict[i]['P'] = min(p, r) + max(p, r)
+        lineup_dict[i]['S'] = min(p, s) + max(p , s)
 
-        old_lineup = new_lineup
-        new_lineup = ''
+    return lineup_dict
 
-def get_winner(pair):
-    if pair[0] == pair[1]:
-        raise TieException
-    elif 'R' not in pair:
-        return 'S'
-    elif 'P' not in pair:
-        return 'R'
-    elif 'S' not in pair:
-        return 'P'
-    else:
-        raise ValueError
-
-class TieException(Exception):
-    pass
+def count_players(lineup):
+    r = lineup.count('R')
+    p = lineup.count('P')
+    s = lineup.count('S')
+    return r, p, s
 
 if __name__ == '__main__':
     import os
@@ -75,7 +58,7 @@ if __name__ == '__main__':
     for sample in samples:
         print(get_lineup(sample))
 
-    data_files = ['A-large-practice']
+    data_files = ['A-small-practice', 'A-large-practice']
     for f in data_files:
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
                   '{0}.in'.format(f)), 'r') as input_file:
@@ -87,6 +70,6 @@ if __name__ == '__main__':
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
                   '{0}.out'.format(f)), 'w') as output_file:
             for in_ in inputs:
-                players = [int(_) for _ in in_.split(' ')[1:]]
+                players = tuple([int(_) for _ in in_.split(' ')[1:]])
                 output_file.write('Case #{0}: {1}\n'.format(i, get_lineup(players)))
                 i += 1
