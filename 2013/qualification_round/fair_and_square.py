@@ -2,53 +2,54 @@
 # Need solve time complexity
 
 from __future__ import print_function
-from collections import deque
+import math
 
 def count_fair_and_square_numbers(a, b):
-    count = 0
-    n = a
-    while n <= b:
-        if is_fair_and_square(n):
-            count += 1
-        n += 1
-    return count
+    palindromes = build_palindromes(a, b)
+    print(palindromes)
+    palindrome_squares = [_ ** 2 for _ in build_palindromes(int(a ** 0.5),
+                          int(math.ceil(b ** 0.5)))
+                          if a <= _ ** 2 <= b]
+    fair_and_squares = list(set(palindromes).intersection(set(palindrome_squares)))
+    return len(fair_and_squares)
 
-def is_fair_and_square(n):
-    assert isinstance(n, int) or isinstance(n, long)
-    if is_palindrome(n):
-        if is_square(n):
-            return is_palindrome(int(n ** 0.5))
-        else:
-            return False
-    else:
-        return False
+def build_palindromes(a, b):
+    def func0(i):
+        return str(i)[::-1] + str(i)
 
-def is_square(n):
-    assert isinstance(n, int) or isinstance(n, long)
+    def func1(i):
+        print('*******', str(i)[1::-1], str(i))
+        return str(i)[1::-1] + str(i)
 
-    if 0 <= n <= 1:
-        return True
+    def func2(i):
+        return str(i) + str(i)[::-1]
 
-    x = n // 2
-    seen = set([x])
-    while x ** 2 != n:
-        x = (x + (n // x)) // 2
-        if x in seen:
-            return False
-        seen.add(x)
-    return True
+    def func3(i):
+        print('########', str(i), str(i)[:-1:-1])
+        return str(i) + str(i)[:-1:-1]
 
-def is_palindrome(n):
-    assert isinstance(n, int) or isinstance(n, long)
-    dq = deque(str(n))
-    dq.reverse()
-    n_ = int(''.join(dq))
-    return n == n_
+
+    palindromes = []
+
+    length_a = int(math.ceil(float(len(str(a))) / 2))
+    length_b = int(math.ceil(float(len(str(b))) / 2))
+    i = 10 ** (length_a - 1)
+    print('i', i)
+    print('length_b', length_b)
+    while len(str(i)) <= length_b:
+        for f in [func0, func1, func2, func3]:
+            palindrome = f(i)
+            print('p', palindrome)
+            if int(palindrome[0]) > 0:
+                # print('q', palindrome)
+                palindromes.append(int(palindrome))
+        i += 1
+
+    palindromes = [_ for _ in list(set(palindromes)) if a <= _ <= b]
+    return palindromes
 
 if __name__ == '__main__':
     import os
-
-    print(is_square(152415789666209426002111556165263283035677489))
 
     samples = [
         (1, 4),
@@ -59,7 +60,9 @@ if __name__ == '__main__':
     for sample in samples:
         print(count_fair_and_square_numbers(*sample))
 
-    data_files = ['C-small-practice', 'C-large-practice-1', 'C-large-practice-2']
+    data_files = ['C-small-practice',]
+                #   'C-large-practice-1',
+                #   'C-large-practice-2']
     for f in data_files:
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
                   '{0}.in'.format(f)), 'r') as input_file:
