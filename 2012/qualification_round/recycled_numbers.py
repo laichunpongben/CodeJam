@@ -1,33 +1,17 @@
 #!/usr/bin/env python
-# Need solve time complexity
+# Time complexity: O(NlogN)
 
 from __future__ import print_function
 
 def count_recycled_pairs(a, b):
-    count = 0
+    recycled_pairs = []
     for n in range(a, b):
-        for m in range(n+1, b+1):
-            if is_recycled_pair(n, m):
-                count += 1
-    return count
-
-def count_digits(n):
-    digits = [int(_) for _ in list(str(n))]
-    return {digit: digits.count(digit) for digit in range(10)}
-
-def is_recycled_pair(n, m):
-    if len(str(n)) != len(str(m)):
-        return False
-
-    if count_digits(n) != count_digits(m):
-        return False
-
-    for i in range(len(str(m))):
-        s = int(str(m)[i:] + str(m)[:i])
-        if s == n:
-            return True
-
-    return False
+        for i in range(1, len(str(n))):
+            m = int(str(n)[i:] + str(n)[:i])
+            if n < m <= b:
+                recycled_pairs.append((n, m))
+    recycled_pairs = list(set(recycled_pairs))
+    return len(recycled_pairs)
 
 if __name__ == '__main__':
     import os
