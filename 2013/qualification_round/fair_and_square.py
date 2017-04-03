@@ -1,9 +1,58 @@
 #!/usr/bin/env python
-# Need solve time complexity
 
 from __future__ import print_function
 import math
 from bisect import bisect_left
+import itertools
+
+def build_fair_and_squares(a, b):
+    assert isinstance(a, (int, long))
+    assert isinstance(b, (int, long))
+
+    def func0(i):
+        assert i >= 1
+        patterns = []
+        zero_one_generator = itertools.product(('0', '1'), repeat=i-1)
+        zero_one_product = ['1' + ''.join(_) for _ in zero_one_generator]
+        patterns.extend(zero_one_product)
+        patterns.append('2' + '0' * (i-1))
+        fair_and_squares = [int(i + i[::-1]) ** 2 for i in patterns]
+        return fair_and_squares
+
+    def func1(i):
+        assert i >= 1
+        if i == 1:
+            return []
+        patterns = []
+        zero_one_generator = itertools.product(('0', '1'), repeat=i-2)
+        zero_one_product = ['1' + ''.join(_) + str(x) for _ in zero_one_generator for x in range(3)]
+        patterns.extend(zero_one_product)
+        patterns.extend(['2' + '0' * (i-2) + str(x) for x in range(3)])
+        fair_and_squares = [int(i + i[-2::-1]) ** 2 for i in patterns]
+        return fair_and_squares
+
+    fair_and_squares = [1, 4, 9]
+
+    length_a = int(math.ceil(float(len(str(a))) / 4))
+    if is_power(b, 10):
+        length_b = int(math.ceil(float(len(str(b)) - 1) / 4))
+    else:
+        length_b = int(math.ceil(float(len(str(b))) / 4))
+
+    i = 1
+
+    while i <= length_b:
+        for f in [func0, func1]:
+            fns = f(i)
+            fair_and_squares.extend(fns)
+        i += 1
+
+    fair_and_squares = sorted([_ for _ in fair_and_squares if a <= _ <= b and is_palindrome(_)])
+
+    return fair_and_squares
+
+def is_palindrome(n):
+    return str(n) == str(n)[::-1]
 
 def get_fair_and_squares(a, b):
     assert isinstance(a, (int, long))
@@ -48,7 +97,7 @@ def build_palindromes(a, b):
                 palindromes.append(int(palindrome))
         i += 1
 
-    palindromes = [_ for _ in list(set(palindromes)) if a <= _ <= b]
+    palindromes = sorted([_ for _ in list(set(palindromes)) if a <= _ <= b])
     return palindromes
 
 def is_power(num, base):
@@ -98,8 +147,10 @@ if __name__ == '__main__':
         input_ranges = [tuple([int(_) for _ in in_.split(' ')]) for in_ in inputs]
         max_range = max(input_ranges, key=lambda x: x[1])[1]
         print(max_range)
-        fair_and_squares = get_fair_and_squares(1, max_range)
-        print(fair_and_squares)
+        fair_and_squares = build_fair_and_squares(1, max_range)
+        for _ in fair_and_squares:
+            print(_)
+        print(len(fair_and_squares))
 
         i = 1
         with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
