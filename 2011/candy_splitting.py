@@ -5,62 +5,11 @@ from functools import reduce
 
 def split_candies(candies):
     assert isinstance(candies, list)
-
-    partitions = sorted_k_partitions(candies, 2)
-    print(partitions)
-
-    max_candy = 0
-    for partition in partitions:
-        xor0 = reduce(lambda x, y: x ^ y, partition[0])
-        sum0 = sum(partition[0])
-        xor1 = reduce(lambda x, y: x ^ y, partition[1])
-        sum1 = sum(partition[1])
-        print(xor0, xor1, sum0, sum1)
-        if xor0 == xor1:
-            max_candy = max(max_candy, max(sum0, sum1))
-
-    return max_candy
-
-def sorted_k_partitions(seq, k):
-    """Returns a list of all unique k-partitions of `seq`.
-
-    Each partition is a list of parts, and each part is a tuple.
-
-    The parts in each individual partition will be sorted in shortlex
-    order (i.e., by length first, then lexicographically).
-
-    The overall list of partitions will then be sorted by the length
-    of their first part, the length of their second part, ...,
-    the length of their last part, and then lexicographically.
-    """
-    n = len(seq)
-    groups = []  # a list of lists, currently empty
-
-    def generate_partitions(i):
-        if i >= n:
-            yield list(map(tuple, groups))
-        else:
-            if n - i > k - len(groups):
-                for group in groups:
-                    group.append(seq[i])
-                    for item in generate_partitions(i + 1):
-                        yield item  # Python3: yield from generate_partitions(i + 1)
-                    group.pop()
-
-            if len(groups) < k:
-                groups.append([seq[i]])
-                for item in generate_partitions(i + 1):
-                    yield item  # Python3: yield from generate_partitions(i + 1)
-                groups.pop()
-
-    result = generate_partitions(0)
-
-    # Sort the parts in each partition in shortlex order
-    result = [sorted(ps, key = lambda p: (len(p), p)) for ps in result]
-    # Sort partitions by the length of each part, then lexicographically.
-    result = sorted(result, key = lambda ps: (len(ps), ps))  # Python3: *map(len, ps)
-
-    return result
+    xor = reduce(lambda x, y: x ^ y, candies)
+    if xor == 0:
+        return sum(candies) - min(candies)
+    else:
+        return 0
 
 if __name__ == '__main__':
     import os
