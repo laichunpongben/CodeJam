@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Google Code Jam
 # Google Code Jam 2014
 # Qualification Round 2014
@@ -13,7 +15,7 @@ class TestCase:
         self.winning_condition = x
         self.current_stock = 0
         self.current_return = self.initial_return
-        
+
     def compute_min_time_to_win(self):
         time = 0
         while (self.current_stock < self.winning_condition):
@@ -28,16 +30,16 @@ class TestCase:
                 self.current_stock += time_to_build_cookie_farm * self.current_return
                 self.build_cookie_farm()
         return time
-        
+
     def compute_time_to_build_cookie_farm(self):
         return (self.cookie_farm_cost - self.current_stock) / self.current_return
-        
+
     def compute_time_to_win_if_no_action(self):
         return (self.winning_condition - self.current_stock) / self.current_return
-    
+
     def compute_time_to_win_if_build_cookie_farm(self):
         return self.compute_time_to_build_cookie_farm() + self.winning_condition / (self.current_return + self.cookie_farm_return)
-    
+
     def build_cookie_farm(self):
         if (self.current_stock >= self.cookie_farm_cost):
             self.current_stock += -1 * self.cookie_farm_cost
@@ -46,9 +48,9 @@ class TestCase:
 def initialize_test_cases(lines):
     global test_cases
     for index, item in enumerate(lines):
-        if index > 0:  
+        if index > 0:
             items = item.split(' ')
-            if (len(items) > 1): 
+            if (len(items) > 1):
                 c = float(items[0])
                 f = float(items[1])
                 x = float(items[2])

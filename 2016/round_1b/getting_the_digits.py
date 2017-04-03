@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2016
+# Round 1B 2016
+# Problem A. Getting the Digits
+
+# Solved all test sets
+
 from __future__ import print_function
 import string
 

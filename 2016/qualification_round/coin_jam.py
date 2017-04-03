@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2016
+# Qualification Round 2016
+# Problem C. Coin Jam
+
+# Solved all test sets
+
 from __future__ import print_function
 
 def get_coin(length, i):

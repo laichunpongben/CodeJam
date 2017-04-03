@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+
+# Google Code Jam
+# Google Code Jam 2012
+# Qualification Round 2012
+# Problem C. Recycled Numbers
+
+# Solved all test sets
 # Time complexity: O(NlogN)
 
 from __future__ import print_function

@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2012
+# Qualification Round 2012
+# Problem A. Speaking in Tongues
+
+# Solved all test sets
+
 from __future__ import print_function
 import string
 
@@ -23,7 +30,7 @@ def decrypt(g):
 
 if __name__ == '__main__':
     import os
-    
+
     samples = [
         'ejp mysljylc kd kxveddknmc re jsicpdrysi',
         'rbcpc ypc rtcsra dkh wyfrepkym veddknkmkrkcd',

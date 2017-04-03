@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2013
+# Qualification Round 2013
+# Problem C. Fair and Square
+
+# Solved all test sets
+
 from __future__ import print_function
 import math
 from bisect import bisect_left

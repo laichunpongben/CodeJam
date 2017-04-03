@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2016
+# Round 1C 2016
+# Problem A. Senate Evacuation
+
+# Solved all test sets
+
 from __future__ import print_function
 
 def parse_senates(senates_str):

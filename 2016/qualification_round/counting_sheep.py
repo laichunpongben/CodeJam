@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2016
+# Qualification Round 2016
+# Problem A. Counting Sheep
+
+# Solved all test sets
+
 from __future__ import print_function
 
 ALL_NUMS = set(range(0,10))

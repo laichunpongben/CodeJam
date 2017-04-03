@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2016
+# Round 2 2016
+# Problem A. Rather Perplexing Showdown
+
+# Solved all test sets
+
 from __future__ import print_function
 import math
 from copy import deepcopy

@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2016
+# Round 1A 2016
+# Problem A. The Last Word
+
+# Solved all test sets
+
 from __future__ import print_function
 from collections import deque
 
