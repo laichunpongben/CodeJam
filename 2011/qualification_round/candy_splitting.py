@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# Google Code Jam
+# Google Code Jam 2011
+# Qualification Round 2011
+# Problem C. Candy Splitting
+
+# Solved all test sets
+
 from __future__ import print_function
 from functools import reduce
 
