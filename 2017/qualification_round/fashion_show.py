@@ -5,6 +5,8 @@
 # Qualification Round 2017
 # Problem D. Fashion Show
 
+# Solved small test set
+
 from __future__ import print_function
 
 def get_style_point_and_models(n, m, preplaced_models=[]):
