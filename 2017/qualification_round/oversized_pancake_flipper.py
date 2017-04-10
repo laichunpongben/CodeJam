@@ -1,118 +1,112 @@
+#!/usr/bin/env python
+
+# Google Code Jam
+# Google Code Jam 2017
+# Qualification Round 2017
+# Problem A. Oversized Pancake Flipper
+
+# Solved all test sets
 
 from __future__ import print_function
-import random
-import sys
 import itertools
+from functools import reduce
 import operator
-import math
+import sys
 
-def flip(s, k, positions):
-    # print(type(positions))
-    assert isinstance(positions, tuple)
-    s0 = s
-    for position in positions:
-        s_flip = s0[position:position + k]
-        s0_flip = ''
-        for c in s_flip:
-            if c == '+':
-                s0_flip += '-'
-            else:
-                s0_flip += '+'
-        # print(s0[:position], s0_flip, s0[position + k:])
-        s0 = s0[:position] + s0_flip + s0[position + k:]
-    return s0
+def build_sk_dict(max_s_length):
+    sk_dict = {}
+    for s in range(2, max_s_length + 1):
+        sk_dict[s] = {}
+        for k in range(2, s + 1):
+            sk_dict[s][k] = []
+            xors = [int('1' * k, 2) * (2 ** j) for j in range(s - k + 1)]
+            for r in range(s - k + 2):
+                combo = itertools.combinations(xors, r)
+                for c in combo:
+                    zxor = reduce(operator.xor, c, 0)
+                    sk_dict[s][k] = r
+                    print(s, k, zxor, r, c)
+    return sk_dict
 
-def flip_all_patterns(s, k):
-    pattern_distance_dict = {}
-    if k > len(s):
-        pattern_distance_dict['+'*len(s)] = (0, len(s), 0, int(math.ceil(float(len(s))/2)), 0, int(float(len(s))/2), 0)
-        return pattern_distance_dict
+def s_to_digits(s):
+    return s.replace('+', '0').replace('-', '1')
 
-    if '-' not in s:
-        pattern_distance_dict[s] = (0, len(s), 0, int(math.ceil(float(len(s))/2)), 0, int(float(len(s))/2), 0)
+def get_xors(s, k):
+    return sorted([int('1' * k, 2) * (2 ** j) for j in range(len(s) - k + 1)], reverse=True)
 
-    r = range(len(s) - k + 1)
-    for t in range(1, len(r) + 1):
-        permutations = itertools.product(r, repeat=t)
-        for permutation in permutations:
-            # print(permutation)
-            s0 = flip(s, k, permutation)
-            # print(s0, len(permutation))
-            step = len(permutation)
-            count_p = s0.count('+')
-            count_m = s0.count('-')
+def calc_min_flip_step(s, k):
+    assert isinstance(k, int)
 
-            s1 = s0[::2]
-            # print('s1', s1)
-            count_p_s1 = s1.count('+')
-            count_m_s1 = s1.count('-')
+    digits = s_to_digits(s)
 
-            s2 = s0[1::2]
-            # print('s2', s2)
-            count_p_s2 = s2.count('+')
-            count_m_s2 = s2.count('-')
+    if not '1' in digits:
+        return 0
 
-            try:
-                if step < pattern_distance_dict[s0][0]:
-                    pattern_distance_dict[s0] = (step, count_p, count_m, count_p_s1, count_m_s1, count_p_s2, count_m_s2)
-            except KeyError:
-                pattern_distance_dict[s0] = (step, count_p, count_m, count_p_s1, count_m_s1, count_p_s2, count_m_s2)
-    return pattern_distance_dict
+    xors = get_xors(s, k)
 
-# def get_flip_step(s, k):
-#     s0 = s
-#     count = 0
-#     while '-' in s0:
-#         s0 = flip(s0, k)
-#         # print(s0)
-#         count += 1
-#
-#         if count >= 100000:
-#             return sys.maxint
-#
-#     return count
-#
-#
-# def get_min_flip_step(s, k):
-#     min_flip_step = sys.maxint
-#     for i in range(1000):
-#         step = get_flip_step(s, k)
-#         min_flip_step = min(step, min_flip_step)
-#     return min_flip_step
+    min_flip_step = 0
+    for i in range(len(s) - k + 1):
+        if digits[i] == '1':
+            min_flip_step += 1
+            flipped = int(digits, 2) ^ xors[i]
+            digits = format(flipped, '#0{0}b'.format(len(s)+2))[2:]
+
+    if '1' in digits:
+        return sys.maxint
+
+    assert min_flip_step > 0
+
+    return min_flip_step
 
 if __name__ == '__main__':
+    import os
+
     samples = [
-        # ('++', 2),
-        # ('+++', 2),
-        # ('++++', 2),
-        # ('+++++', 2),
-        # ('++++++', 2),
-        # ('+++++++', 2),
-        # ('+'*10, 5),
-        # ('++++', 3),
-        # ('+++++', 3),
-        # ('+++++', 4),
-        # ('+'*100, 3)
-        # ('---+-++-', 3),
-        # ('+++++', 4),
-        # ('-+-+-', 4),
-        # ('---+-++++', 3),
-        # ('---+-++++', 2),
-        # ('---+-++++', 4),
+        ('++', 2),
+        ('+++', 2),
+        ('++++', 2),
+        ('+++++', 2),
+        ('++++++', 2),
+        ('+++++++', 2),
+        ('+'*10, 5),
+        ('++++', 3),
+        ('+++++', 3),
+        ('+++++', 4),
+        ('+'*100, 3),
+        ('---+-++-', 3),
+        ('+++++', 4),
+        ('-+-+-', 4),
+        ('---+-++++', 3),
+        ('---+-++++', 2),
+        ('---+-++++', 4),
     ]
 
-    samples = [('+' * len_s, k) for k in range(2, 11) for len_s in range(1, 11)]
+    for sample in samples:
+        min_flip_step = calc_min_flip_step(*sample)
+        if min_flip_step == sys.maxint:
+            print('IMPOSSIBLE')
+        else:
+            print(min_flip_step)
 
-    with open('skd.txt', 'w') as data:
-        for sample in samples:
-            s, k = sample
-            print('s', s, 'len_s', len(s), 'k', k)
-            # print('*' * 10)
-            # print(get_min_flip_step(*sample))
-            d = flip_all_patterns(*sample)
-            # print(d)
-            sorted_d = sorted(d.items(), key=operator.itemgetter(1))
-            for item in sorted_d:
-                print(item[0], item[1])
-                data.write('{0} {1} {2}\n'.format(k, item[0], item[1][0]))
-            print()
+    data_files = ['A-small-practice',
+                  'A-large-practice']
+    for f in data_files:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                  '{0}.in'.format(f)), 'r') as input_file:
+            lines = input_file.readlines()
+        input_count = int(lines[0].replace('\n' ,''))
+        inputs = [line.replace('\n', '') for line in lines[1:]]
+
+        i = 1
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                  '{0}.out'.format(f)), 'w') as output_file:
+            for in_ in inputs:
+                line = tuple([_ for _ in in_.split(' ')])
+                s = line[0]
+                k = int(line[1])
+                min_flip_step = calc_min_flip_step(s, k)
+                if min_flip_step == sys.maxint:
+                    output_file.write('Case #{0}: IMPOSSIBLE\n'.format(i))
+                else:
+                    output_file.write('Case #{0}: {1}\n'.format(i, min_flip_step))
+                i += 1
