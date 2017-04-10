@@ -1,28 +1,35 @@
+#!/usr/bin/env python
 
-from __future__ import print_function
+# Google Code Jam
+# Google Code Jam 2017
+# Qualification Round 2017
+# Problem C. Bathroom Stalls
+
+from __future__ import print_function, division
 import math
+import decimal
+from decimal import Decimal
 
 def get_min_max_ls_rs(n, k):
-    rank = int(math.log(k, 2))
-    position = k - 2 ** rank
-    # print('rank', rank, 'position', position)
+    ctx = decimal.getcontext()
+    ctx.prec = 42
 
-    remaining_stalls = max(n - 2 ** (rank + 1) + 1, 0)
-    # print('remaining_stalls', remaining_stalls)
+    rank = ctx.divide_int(ctx.ln(Decimal(str(k))), ctx.ln(Decimal('2')))
+    position = Decimal(str(k)) - ctx.power(Decimal('2'), Decimal(str(rank)))
 
-    residual_stall = remaining_stalls % (2 ** (rank+1))
-    # print('residual_stall', residual_stall)
+    remaining_stalls = ctx.max(Decimal(str(n)) - ctx.power(Decimal('2'), Decimal(str(rank + 1))) + 1, 0)
 
-    stall = float(remaining_stalls) / (2 ** (rank+1))
-    # print('stall', stall)
+    residual_stall = ctx.remainder(remaining_stalls, ctx.power(Decimal('2'), Decimal(str(rank + 1))))
+
+    stall = ctx.divide(remaining_stalls, ctx.power(Decimal('2'), Decimal(str(rank + 1))))
 
     high = int(stall)
     low = int(stall)
-    # print('highlow', high, low)
+
     if position < residual_stall:
         high += 1
 
-    residual_stall += - 2 ** (rank)
+    residual_stall += - ctx.power(Decimal('2'), Decimal(str(rank)))
 
     if position < residual_stall:
         low += 1
@@ -30,6 +37,8 @@ def get_min_max_ls_rs(n, k):
     return high, low
 
 if __name__ == '__main__':
+    import os
+
     samples = [
         (2, 1),
         (2, 2),
@@ -64,7 +73,6 @@ if __name__ == '__main__':
         (1000, 8),
         (660, 100),
         (1000000000000000000, 1)
-
     ]
 
     for sample in samples:
@@ -72,16 +80,19 @@ if __name__ == '__main__':
         print(get_min_max_ls_rs(*sample))
         print()
 
-    data_files = ['C-large',]
-                #   'C-large-practice']
+    data_files = ['C-small-practice-1',
+                  'C-small-practice-2',
+                  'C-large-practice']
     for f in data_files:
-        with open('{0}.in'.format(f), 'r') as input_file:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                  '{0}.in'.format(f)), 'r') as input_file:
             lines = input_file.readlines()
         input_count = int(lines[0].replace('\n' ,''))
         inputs = [line.replace('\n', '') for line in lines[1:]]
 
         i = 1
-        with open('{0}.out'.format(f), 'w') as output_file:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                  '{0}.out'.format(f)), 'w') as output_file:
             for in_ in inputs:
                 line = tuple([int(_) for _ in in_.split(' ')])
                 n, k = line
