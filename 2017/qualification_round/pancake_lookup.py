@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+
+# Google Code Jam
+# Google Code Jam 2017
+# Qualification Round 2017
+# Problem A. Oversized Pancake Flipper
+
 from __future__ import print_function
 import csv
 

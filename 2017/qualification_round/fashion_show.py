@@ -1,6 +1,11 @@
+#!/usr/bin/env python
+
+# Google Code Jam
+# Google Code Jam 2017
+# Qualification Round 2017
+# Problem D. Fashion Show
+
 from __future__ import print_function
-
-
 
 def get_style_point_and_models(n, m, preplaced_models=[]):
 

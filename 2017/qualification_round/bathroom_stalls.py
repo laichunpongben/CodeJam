@@ -5,6 +5,8 @@
 # Qualification Round 2017
 # Problem C. Bathroom Stalls
 
+# Solved all test sets
+
 from __future__ import print_function, division
 import math
 import decimal
