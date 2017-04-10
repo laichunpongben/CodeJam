@@ -5,7 +5,7 @@
 # Round 1C 2015
 # Problem A. Brattleship
 
-# Solved small test set
+# Solved all test sets
 
 from __future__ import print_function, division
 import math
@@ -17,7 +17,12 @@ def get_score(r, c, w):
         else:
             return min(max(int(math.ceil(c/w)) + w - 1, w + 1), c)
     else:
-        return 0
+        if w == 1:
+            return r * c
+        elif w == c:
+            return r + c - 1
+        else:
+            return (r-1) * int(c/w) + min(max(int(math.ceil(c/w)) + w - 1, w + 1), c)
 
 if __name__ == '__main__':
     import os
@@ -25,7 +30,7 @@ if __name__ == '__main__':
     samples = [
         (1, 4, 2),
         (1, 7, 7),
-        # (2, 5, 1)
+        (2, 5, 1)
     ]
 
     for sample in samples:
