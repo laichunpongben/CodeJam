@@ -84,6 +84,8 @@ def get_style_point_and_models(n, m, preplaced_models=[]):
 
 
 if __name__ == '__main__':
+    import os
+    
     samples = [
         # (2, 0, []),
         # (2, 1, [('x', (1,2))]),
@@ -105,7 +107,8 @@ if __name__ == '__main__':
     data_files = ['D-small-attempt0',]
                 #   'D-large-practice']
     for f in data_files:
-        with open('{0}.in'.format(f), 'r') as input_file:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                  '{0}.in'.format(f)), 'r') as input_file:
             lines = input_file.readlines()
         input_count = int(lines[0].replace('\n' ,''))
         inputs = [line.replace('\n', '') for line in lines[1:]]
@@ -128,7 +131,8 @@ if __name__ == '__main__':
             i += 1
 
         z = 1
-        with open('{0}.out'.format(f), 'w') as output_file:
+        with open(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                  '{0}.out'.format(f)), 'w') as output_file:
             for test_case in test_cases:
                 style_point, models = get_style_point_and_models(*test_case)
                 output_file.write('Case #{0}: {1} {2}\n'.format(z, style_point, len(models)))
