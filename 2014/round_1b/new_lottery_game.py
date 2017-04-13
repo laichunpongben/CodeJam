@@ -2,7 +2,7 @@
 
 # Google Code Jam
 # Google Code Jam 2014
-# Round 2 2014
+# Round 1B 2014
 # Problem B. New Lottery Game
 
 # Solved small set
